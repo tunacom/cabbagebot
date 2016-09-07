@@ -36,7 +36,7 @@ async def roll(formula : str):
 
 def main():
   """Command line cabbages pass through here."""
-  token = open(os.path.join(os.path.dirname(__file__), 'token')).read()
+  token = open(os.path.join(os.path.dirname(__file__), 'token')).read().strip()
   bot.run(token)
 
 
