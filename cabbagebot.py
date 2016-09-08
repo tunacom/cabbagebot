@@ -4,7 +4,7 @@ import os
 from discord.ext import commands
 
 from cabbage import polyhedral
-from cabbage import text
+from cabbage import joy
 
 bot = commands.Bot(command_prefix='!', description='cabbage cabbage cabbages')
 
@@ -20,7 +20,7 @@ async def on_ready():
 @bot.command(description='Spread the joy of cabbage!')
 async def cabbage():
   """Spread the joy of cabbage."""
-  await bot.say(text.spread_joy())
+  await bot.say(joy.spread_joy())
 
 
 @bot.command(description='Roll polyhedral cabbages.')
@@ -36,8 +36,13 @@ async def roll(formula : str):
 
 def main():
   """Command line cabbages pass through here."""
-  token = open(os.path.join(os.path.dirname(__file__), 'token')).read().strip()
-  bot.run(token)
+  flickr_key_path = os.path.join(os.path.dirname(__file__), 'flickr_api_key')
+  flickr_key = open(flickr_key_path).read().strip()
+  joy.bootstrap(flickr_key)
+
+  discord_token_path = os.path.join(os.path.dirname(__file__), 'discord_token')
+  discord_token = open(discord_token_path).read().strip()
+  bot.run(discord_token)
 
 
 if __name__ == '__main__':

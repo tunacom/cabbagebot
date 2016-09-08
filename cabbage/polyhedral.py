@@ -39,7 +39,7 @@ class Term(object):
   def __init__(self, term_type, sign, count=1, sides=0, value=0):
     self.term_type = term_type
     self.sign = sign
-    self.count = count
+    self.cabbage_count = count
     self.sides = sides
     self.value = value
 
@@ -80,7 +80,7 @@ def roll_polyhedral_cabbage(formula):
   if tokens[0] != '-':
     tokens.insert(0, '+')
 
-  # Add a sign to the end so that the last token is finalized.
+  # Add a sign to the end so that the last discord_token is finalized.
   tokens.append('+')
 
   terms = []
@@ -151,15 +151,15 @@ def roll_polyhedral_cabbage(formula):
       math += '{sign}{value}'.format(sign=sign_char, value=term.value)
     elif term.term_type == TermType.roll:
       # Limit the total number of rolls to avoid spam.
-      total_rolls += term.count
+      total_rolls += term.cabbage_count
       if total_rolls > MAX_POLYHEDRAL_CABBAGES:
         return "I DON'T HAVE THAT MANY CABBAGES. SORRY!"
       if term.sides < 1:
         return "I DON'T EVEN KNOW WHAT A 0-SIDED CABBAGE IS!"
-      if term.count < 1:
+      if term.cabbage_count < 1:
         return 'HOW TO ROLL NO CABBAGES? DOES NOT COMPUTE!'
 
-      for _ in range(term.count):
+      for _ in range(term.cabbage_count):
         roll = random.randint(1, term.sides)
         result += roll * term.sign
         math += '{sign}[{value}]'.format(sign=sign_char, value=roll)
