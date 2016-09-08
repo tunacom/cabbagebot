@@ -4,8 +4,8 @@ import http.client
 import random
 import re
 
-CABBAGE_IMAGE_PROBABILITY = 0.6
-SPECIAL_CABBAGE_PROBABILITY = 0.3
+CABBAGE_IMAGE_PROBABILITY = 0.9
+SPECIAL_CABBAGE_PROBABILITY = 0.4
 
 SPECIAL_CABBAGES = [
     'brassica oleracea',
