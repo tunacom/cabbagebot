@@ -23,6 +23,13 @@ async def cabbage():
   await bot.say(joy.spread_joy())
 
 
+@bot.command(description='SPREAD THE JOY OF CABBAGE!')
+async def CABBAGE():
+  """SPREAD THE JOY OF CABBAGE."""
+  JOY = joy.create_cabbage_text().upper()
+  await bot.say(JOY)
+
+
 @bot.command(description='Roll polyhedral cabbages.')
 async def roll(formula : str):
   """Roll a polyhedral cabbage.
@@ -39,6 +46,9 @@ def main():
   flickr_key_path = os.path.join(os.path.dirname(__file__), 'flickr_api_key')
   flickr_key = open(flickr_key_path).read().strip()
   joy.bootstrap(flickr_key)
+
+  # Prepopulate the cabbage cache.
+  joy.load_cabbages()
 
   discord_token_path = os.path.join(os.path.dirname(__file__), 'discord_token')
   discord_token = open(discord_token_path).read().strip()
