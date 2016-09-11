@@ -121,15 +121,12 @@ def load_cabbages(page=1):
 
 def get_cabbage():
   """Get a cabbage from the prepopulated cabbage cache, or populate it."""
-  if not hasattr(get_cabbage, 'cabbage_cache'):
+  cabbage_cache = getattr(get_cabbage, 'cabbage_cache', [])
+  if not cabbage_cache:
     load_cabbages()
 
-  cabbage_cache = getattr(get_cabbage, 'cabbage_cache')
   cabbage_index = random.randint(0, len(cabbage_cache) - 1)
   cabbage = cabbage_cache.pop(cabbage_index)
-
-  if not cabbage_cache:
-    delattr(get_cabbage, 'cabbage_cache')
 
   return cabbage
 
