@@ -6,6 +6,7 @@ import re
 
 from cabbage import error
 
+# TODO(tunacom): Docstring cleanup.
 # TODO(tunacom): In general, the organization here is pretty craptastic.
 # Restructure it in a cleaner way, avoid hasattr/setattr.
 
@@ -32,7 +33,7 @@ FLICKR_CABBAGE_REQUEST_FORMAT = (
     'page={page}&per_page={per_page}&api_key={api_key}')
 FLICKR_CABBAGE_IMAGE_FORMAT = (
     'https://farm{farm}.staticflickr.com/{server}/{photo_id}_{secret}.jpg '
-    '(original title: {title})')
+    '(title: {title})')
 FLICKR_PHOTO_REGEX = re.compile(
     r'\s*<photo id="(\d+)" .* secret="(\w+)" server="(\w+)" farm="(\w+)" '
     r'title="(\w+)" .*')
@@ -50,12 +51,24 @@ def get_flickr_api_key():
 
 # TODO(tunacom): This should be more sophisticated.
 def seems_like_cabbage(title):
-  """Check to see if a title sounds like a cabbage title."""
-  title = title.lower()
+  """Check to see if a title sounds like a cabbage title.
 
+  Args:
+    title: The potential cabbage image title. Expected to be lowercase.
+
+  Returns:
+    Boolean indicating whether or not this seems like cabbage.
+  """
   # Cabbage butterflies are the main source of non-cabbage sadness.
-  if 'butterfly' in title or 'pieris' in title or 'rapae' in title:
-    return False
+  cabbage_butterfly_keywords = [
+    'butterfly',
+    'peris',
+    'rapae',
+    'white',  # Rarely used to refer to cabbage, often to the butterflies.
+  ]
+  for keyword in cabbage_butterfly_keywords:
+    if keyword in title:
+      return False
 
   return True
 
@@ -90,7 +103,7 @@ def load_cabbages(page=1):
       secret = match.group(2)
       server = match.group(3)
       farm = match.group(4)
-      title = match.group(5)
+      title = match.group(5).lower()
       photo = FLICKR_CABBAGE_IMAGE_FORMAT.format(photo_id=photo_id,
                                                  secret=secret,
                                                  server=server,
