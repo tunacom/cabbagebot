@@ -69,8 +69,8 @@ class PolyhedralTest(unittest.TestCase):
     self.assertEquals(response, '15 ([17]-2)')
 
   @mock.patch('random.randint', return_value=2)  # Simulate Nigel as a halfing.
-  def stress_test(self, _):
-    """Regression tests for many valid rolls."""
+  def test_many_valid_rolls(self, _):
+    """Regression/stress tests for many valid rolls."""
     formulae_and_results = {
       '1c2+1c3+1c4+1c5': '8 ([2]+[2]+[2]+[2])',
       '4c3': '8 ([2]+[2]+[2]+[2])',
@@ -81,6 +81,6 @@ class PolyhedralTest(unittest.TestCase):
       '100c4': '200 ([2]{repeated_math})'.format(repeated_math='+[2]' * 99)
     }
 
-    for formula, result in formulae_and_results.iteritems():
+    for formula, result in formulae_and_results.items():
       response = polyhedral.roll_polyhedral_cabbage(formula)
       self.assertEquals(response, result)

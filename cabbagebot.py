@@ -41,7 +41,7 @@ async def roll(formula : str):
   This would look like "!roll c10+c6+4"
 
   Or let's say you want to cast a spell like cabbageball where you need to roll
-  many of the same types of cabbages.
+  many of the same types of cabbage.
 
   This would look like "!roll 6c6"
 
