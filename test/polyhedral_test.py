@@ -14,6 +14,12 @@ class PolyhedralTest(unittest.TestCase):
     response = polyhedral.roll_polyhedral_cabbage('1d20')
     self.assertIn('TRY ROLLING CABBAGES', response)
 
+  def test_long_formula(self):
+    """Ensure that we don't attempt to parse very long formulae."""
+    formula = '1' * 1001
+    response = polyhedral.roll_polyhedral_cabbage(formula)
+    self.assertIn('TOO LONG', response)
+    
   def test_formula_invalid(self):
     """Test that cabbagebot detects invalid formulae."""
     # Ensure that non-dice strings with d trigger an invalid formula message.
@@ -28,19 +34,53 @@ class PolyhedralTest(unittest.TestCase):
     response = polyhedral.roll_polyhedral_cabbage('c20+')
     self.assertIn('TRY HARDER!', response)
 
-  @mock.patch('random.randint', return_value=7)  # The most random number.
-  def test_roll(self, _):
-    """Ensure that polyhedral cabbages can be rolled."""
-    response = polyhedral.roll_polyhedral_cabbage('c20')
-    self.assertEquals(response, '7 ([7])')
-
-    response = polyhedral.roll_polyhedral_cabbage('1c20')
-    self.assertEquals(response, '7 ([7])')
-
-    response = polyhedral.roll_polyhedral_cabbage('1c20-2')
-    self.assertEquals(response, '5 ([7]-2)')
-
   def test_sides(self):
-    """Ensure that we only roll polyhedral cabbages with enough sides."""
+    """Ensure that we only roll polyhedral cabbages with valid sides."""
     response = polyhedral.roll_polyhedral_cabbage('1c0+1')
     self.assertIn('0-SIDED CABBAGE', response)
+
+  def test_cabbage_count(self):
+    """Ensure that we don't roll invalid numbers of cabbages."""
+    response = polyhedral.roll_polyhedral_cabbage('101c6')
+    self.assertIn("DON'T HAVE THAT MANY", response)
+
+    response = polyhedral.roll_polyhedral_cabbage('100c6+c4')
+    self.assertIn("DON'T HAVE THAT MANY", response)
+
+    response = polyhedral.roll_polyhedral_cabbage('0c1')
+    self.assertIn('HOW TO ROLL', response)
+
+    response = polyhedral.roll_polyhedral_cabbage('10c100000000000000000000')
+    self.assertIn('NO CABBAGE HAS', response)
+
+  @mock.patch('random.randint', return_value=17)  # The most random number.
+  def test_roll(self, _):
+    """Basic tests for several valid rolls.
+
+    This must use a different return value than the stress tests.
+    """
+    response = polyhedral.roll_polyhedral_cabbage('c20')
+    self.assertEquals(response, '17 ([17])')
+
+    response = polyhedral.roll_polyhedral_cabbage('1c20')
+    self.assertEquals(response, '17 ([17])')
+
+    response = polyhedral.roll_polyhedral_cabbage('1c20-2')
+    self.assertEquals(response, '15 ([17]-2)')
+
+  @mock.patch('random.randint', return_value=2)  # Simulate Nigel as a halfing.
+  def stress_test(self, _):
+    """Regression tests for many valid rolls."""
+    formulae_and_results = {
+      '1c2+1c3+1c4+1c5': '8 ([2]+[2]+[2]+[2])',
+      '4c3': '8 ([2]+[2]+[2]+[2])',
+      '1c2+1c3+1c4+2': '8 ([2]+[2]+[2]+2)',
+      '1c2+1c3+1c4-2': '4 ([2]+[2]+[2]-2)',
+      '-2+1c2+1c3+1c4': '4 (-2+[2]+[2]+[2])',
+      '1c4+1+1c6': '5 ([2]+1+[2])',
+      '100c4': '200 ([2]{repeated_math})'.format(repeated_math='+[2]' * 99)
+    }
+
+    for formula, result in formulae_and_results.iteritems():
+      response = polyhedral.roll_polyhedral_cabbage(formula)
+      self.assertEquals(response, result)

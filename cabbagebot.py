@@ -32,7 +32,18 @@ async def CABBAGE():
 
 @bot.command(description='Roll polyhedral cabbages.')
 async def roll(formula : str):
-  """Roll a polyhedral cabbage.
+  """Roll polyhedral cabbages based on a formula.
+
+  For example, consider that you are wielding a cabbagebrand longsword in two 
+  hands with a +4 strength modifier. You'd need to roll a c10 and c6, and add
+  +4 to the result.
+
+  This would look like "!roll c10+c6+4"
+
+  Or let's say you want to cast a spell like cabbageball where you need to roll
+  many of the same types of cabbages.
+
+  This would look like "!roll 6c6"
 
   Args:
     formula: The formula for the roll.

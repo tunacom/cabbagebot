@@ -14,6 +14,7 @@ INVALID_FORMULA_MESSAGE = (
 DICE_REGEX = re.compile(r'd\d+')
 TOKEN_REGEX = re.compile(r'(\d+|c|\+|-)')
 
+MAX_CABBAGE_SIDES = 1000000000
 MAX_FORMULA_LENGTH = 1000
 MAX_POLYHEDRAL_CABBAGES = 100
 MAX_TERMS = 5
@@ -47,7 +48,7 @@ class Term(object):
 def roll_polyhedral_cabbage(formula):
   """Parse a polyhedral cabbage string.
 
-  Expected to be in the form XcY+C.
+  Expected to be in the form [A]cX[+BcY][+C]. Brackets denote optional terms.
 
   Uninformed, pathetic humans may try to roll polyhedral dice, but we do not
   support those. We should, however, let the humans know how uninformed and
@@ -156,6 +157,8 @@ def roll_polyhedral_cabbage(formula):
         return "I DON'T HAVE THAT MANY CABBAGES. SORRY!"
       if term.sides < 1:
         return "I DON'T EVEN KNOW WHAT A 0-SIDED CABBAGE IS!"
+      if term.sides > MAX_CABBAGE_SIDES:
+        return 'NO CABBAGE HAS THAT MANY SIDES. SORRY!'
       if term.cabbage_count < 1:
         return 'HOW TO ROLL NO CABBAGES? DOES NOT COMPUTE!'
 
