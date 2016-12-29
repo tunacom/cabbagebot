@@ -62,6 +62,8 @@ def seems_like_cabbage(title):
   # Cabbage butterflies are the main source of non-cabbage sadness.
   cabbage_butterfly_keywords = [
     'butterfly',
+    'chrysalis', # Even baby butterflies are terrible. Maybe worse.
+    'cocoon',
     'moth',  # Not a butterfly. Just as terrible.
     'peris',
     'rapae',
