@@ -43,7 +43,7 @@ async def roll(formula : str):
   Or let's say you want to cast a spell like cabbageball where you need to roll
   many of the same types of cabbage.
 
-  This would look like "!roll 6c6"
+  This would look like "!roll 8c6"
 
   Args:
     formula: The formula for the roll.
