@@ -64,6 +64,7 @@ def seems_like_cabbage(title):
     'butterfly',
     'chrysalis', # Even baby butterflies are terrible. Maybe worse.
     'cocoon',
+    'caterpillar',
     'moth',  # Not a butterfly. Just as terrible.
     'peris',
     'rapae',
