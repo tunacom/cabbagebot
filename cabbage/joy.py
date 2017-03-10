@@ -24,7 +24,6 @@ SPECIAL_CABBAGES = [
     'bok choy',
     'brussels sprouts',
     'cabbages',
-    ':cabbage:',
 ]
 
 BAD_FLICKR_RESPONSE_ERROR = (
