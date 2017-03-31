@@ -156,7 +156,7 @@ def create_cabbage_text():
   Returns:
     Text-based joy.
   """
-  cabbage_list = ['cabbage'] * random.randint(1, 16)
+  cabbage_list = ['butterfly'] * random.randint(1, 16)
 
   if random.random() < SPECIAL_CABBAGE_PROBABILITY:
     special_cabbage = random.choice(SPECIAL_CABBAGES)
