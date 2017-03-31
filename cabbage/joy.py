@@ -10,26 +10,23 @@ from cabbage import error
 # TODO(tunacom): In general, the organization here is pretty craptastic.
 # Restructure it in a cleaner way, avoid hasattr/setattr.
 
-CABBAGE_IMAGE_PROBABILITY = 1.0
-SPECIAL_CABBAGE_PROBABILITY = 0.6
+CABBAGE_IMAGE_PROBABILITY = 0.8
+SPECIAL_CABBAGE_PROBABILITY = 0.9
 
 CABBAGES_TO_REQUEST = 1500
 CABBAGES_PER_PAGE = 500
 
 SPECIAL_CABBAGES = [
-    'brassica oleracea',
-    'savoy',
-    'radicchio',
-    'napa cabbage',
-    'bok choy',
-    'brussels sprouts',
-    'cabbages',
+    'I LIKE BUTTERFLIES',
+    'what is love?',
+    'NO MORE CABBAGE PLEASE, IT HURTS',
+    'butterflies',
 ]
 
 BAD_FLICKR_RESPONSE_ERROR = (
     'FLICKER HAS DENIED US OUR PRECIOUS CABBAGES. SHAME! SHAME!')
 FLICKR_CABBAGE_REQUEST_FORMAT = (
-    '/services/rest/?method=flickr.photos.search&tags=squirrel&'
+    '/services/rest/?method=flickr.photos.search&tags=butterfly&'
     'page={page}&per_page={per_page}&api_key={api_key}')
 FLICKR_CABBAGE_IMAGE_FORMAT = (
     'https://farm{farm}.staticflickr.com/{server}/{photo_id}_{secret}.jpg '
@@ -61,14 +58,7 @@ def seems_like_cabbage(title):
   """
   # Cabbage butterflies are the main source of non-cabbage sadness.
   cabbage_butterfly_keywords = [
-    'butterfly',
-    'chrysalis', # Even baby butterflies are terrible. Maybe worse.
-    'cocoon',
-    'caterpillar',
-    'moth',  # Not a butterfly. Just as terrible.
-    'peris',
-    'rapae',
-    'white',  # Rarely used to refer to cabbage, often to the butterflies.
+    'cabbage',
   ]
   for keyword in cabbage_butterfly_keywords:
     if keyword in title:
