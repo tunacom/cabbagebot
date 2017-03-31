@@ -10,7 +10,7 @@ from cabbage import error
 # TODO(tunacom): In general, the organization here is pretty craptastic.
 # Restructure it in a cleaner way, avoid hasattr/setattr.
 
-CABBAGE_IMAGE_PROBABILITY = 0.9
+CABBAGE_IMAGE_PROBABILITY = 1.0
 SPECIAL_CABBAGE_PROBABILITY = 0.6
 
 CABBAGES_TO_REQUEST = 1500
@@ -29,7 +29,7 @@ SPECIAL_CABBAGES = [
 BAD_FLICKR_RESPONSE_ERROR = (
     'FLICKER HAS DENIED US OUR PRECIOUS CABBAGES. SHAME! SHAME!')
 FLICKR_CABBAGE_REQUEST_FORMAT = (
-    '/services/rest/?method=flickr.photos.search&tags=cabbage&'
+    '/services/rest/?method=flickr.photos.search&tags=squirrel&'
     'page={page}&per_page={per_page}&api_key={api_key}')
 FLICKR_CABBAGE_IMAGE_FORMAT = (
     'https://farm{farm}.staticflickr.com/{server}/{photo_id}_{secret}.jpg '
