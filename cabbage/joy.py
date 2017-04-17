@@ -72,6 +72,8 @@ def seems_like_cabbage(title):
     # Bands are the other primary source of non-cabbage sadness.
     'band',  # Also not cabbage. You can't eat (most) bands.
     'music',
+    'rock',
+    'concert',
   ]
   for keyword in non_cabbage_keywords:
     if keyword in title:
