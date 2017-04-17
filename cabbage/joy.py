@@ -59,8 +59,8 @@ def seems_like_cabbage(title):
   Returns:
     Boolean indicating whether or not this seems like cabbage.
   """
-  # Cabbage butterflies are the main source of non-cabbage sadness.
-  cabbage_butterfly_keywords = [
+  non_cabbage_keywords = [
+    # Cabbage butterflies are the main source of non-cabbage sadness.
     'butterfly',
     'chrysalis', # Even baby butterflies are terrible. Maybe worse.
     'cocoon',
@@ -69,8 +69,11 @@ def seems_like_cabbage(title):
     'peris',
     'rapae',
     'white',  # Rarely used to refer to cabbage, often to the butterflies.
+    # Bands are the other primary source of non-cabbage sadness.
+    'band',  # Also not cabbage. You can't eat (most) bands.
+    'music',
   ]
-  for keyword in cabbage_butterfly_keywords:
+  for keyword in non_cabbage_keywords:
     if keyword in title:
       return False
 
