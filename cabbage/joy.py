@@ -32,7 +32,7 @@ FLICKR_CABBAGE_REQUEST_FORMAT = (
     '/services/rest/?method=flickr.photos.search&tags=cabbage&'
     'page={page}&per_page={per_page}&api_key={api_key}')
 FLICKR_GET_INFO_FORMAT = (
-    '/services/rest/?method=flickr.photos.search&
+    '/services/rest/?method=flickr.photos.search&'
     'photo_id={photo_id}&api_key={api_key}')
 FLICKR_CABBAGE_IMAGE_FORMAT = (
     'https://farm{farm}.staticflickr.com/{server}/{photo_id}_{secret}.jpg '
