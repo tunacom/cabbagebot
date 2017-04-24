@@ -141,10 +141,10 @@ def load_cabbages(page=1):
         if '<tag' in line:
           tags.append(line)
 
-      if any([seems_like_cabbage(tag) for tag in tags]):
+      if any([not seems_like_cabbage(tag) for tag in tags]):
         continue
 
-      photos.append((photo, result))
+      photos.append((photo, result + '\n' + repr(tags)))
 
   # The parsing above is a bit brittle, so have some fallback.
   if not photos:
