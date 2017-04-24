@@ -120,7 +120,7 @@ def load_cabbages(page=1):
                                                  title=title)
 
       if seems_like_cabbage(title):
-        photos.append(photo)
+        photos.append((photo, line))
 
   # The parsing above is a bit brittle, so have some fallback.
   if not photos:
@@ -148,7 +148,8 @@ def get_cabbage():
     load_cabbages()
 
   cabbage_index = random.randint(0, len(cabbage_cache) - 1)
-  cabbage = cabbage_cache.pop(cabbage_index)
+  cabbage, diagnostic_info = cabbage_cache.pop(cabbage_index)
+  setattr(get_cabbage, 'diagnostic_info', diagnostic_info)
 
   return cabbage
 
