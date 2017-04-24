@@ -31,6 +31,9 @@ BAD_FLICKR_RESPONSE_ERROR = (
 FLICKR_CABBAGE_REQUEST_FORMAT = (
     '/services/rest/?method=flickr.photos.search&tags=cabbage&'
     'page={page}&per_page={per_page}&api_key={api_key}')
+FLICKR_GET_INFO_FORMAT = (
+    '/services/rest/?method=flickr.photos.search&
+    'photo_id={photo_id}&api_key={api_key}')
 FLICKR_CABBAGE_IMAGE_FORMAT = (
     'https://farm{farm}.staticflickr.com/{server}/{photo_id}_{secret}.jpg '
     '(title: {title})')
@@ -68,7 +71,6 @@ def seems_like_cabbage(title):
     'moth',  # Not a butterfly. Just as terrible.
     'peris',
     'rapae',
-    'white',  # Rarely used to refer to cabbage, often to the butterflies.
     # Bands are the other primary source of non-cabbage sadness.
     'band',  # Also not cabbage. You can't eat (most) bands.
     'music',
@@ -119,13 +121,35 @@ def load_cabbages(page=1):
                                                  farm=farm,
                                                  title=title)
 
-      if seems_like_cabbage(title):
-        photos.append((photo, line))
+      if not seems_like_cabbage(title):
+        continue
+
+      # At this point we seem like a cabbage. Try to be sure.
+      info_path = FLICKR_GET_INFO_FORMAT.format(photo_id=photo_id,
+                                                api_key=get_flickr_api_key())
+      connection.request('GET', info_path)
+      response = connection.getresponse()
+        
+      # If the HTTP response code was anything other than OK, yell at Flickr.
+      if response.status != 200:
+        raise error.RecoverableCabbageException(BAD_FLICKR_RESPONSE_ERROR)
+
+      # TODO(tunacom): if this works, get the actual tag raw values.
+      result = response.read().decode('utf-8')
+      tags = []
+      for line in result:
+        if '<tag' in line:
+          tags.append(line)
+
+      if any([seems_like_cabbage(tag) for tag in tags]):
+        continue
+
+      photos.append((photo, result))
 
   # The parsing above is a bit brittle, so have some fallback.
   if not photos:
     raise error.RecoverableCabbageException(
-        'I HAD TROUBLE FIGURING OUT WHERE THE CABBAGE WAS. OOPS. TELL TUNA.')
+        'I HAD TROUBLE FIGURING OUT WHERE THE CABBAGE WAS. OOPS.')
 
   if not hasattr(get_cabbage, 'cabbage_cache'):
     setattr(get_cabbage, 'cabbage_cache', [])
