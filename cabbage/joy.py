@@ -137,7 +137,7 @@ def load_cabbages(page=1):
       # TODO(tunacom): if this works, get the actual tag raw values.
       result = response.read().decode('utf-8')
       tags = []
-      for line in result:
+      for line in result.splitlines():
         if '<tag' in line:
           tags.append(line)
 
