@@ -30,6 +30,18 @@ async def CABBAGE():
   await bot.say(JOY)
 
 
+@bot.command(description='Run level 3 cabbage diagnostic.')
+async def diag():
+  """Run a level 3 cabbage diagnostic."""
+  info = getattr(joy.get_cabbage, 'diagnostic_info', 'Not available.')
+  cache_size = len(getattr(joy.get_cabbage, 'cabbage_cache', []))
+  diagnostic_message = ('BEEP BOOP. BORING LEVEL 3 DIAGNOSTIC RESULTS:\n\n'
+                        'Current cabbage cache size: %d\n'
+                        'Previous cabbage response: %s') % (cache_size, info)
+  
+  await bot.say(diagnostic_message)
+
+
 @bot.command(description='Roll polyhedral cabbages.')
 async def roll(formula : str):
   """Roll polyhedral cabbages based on a formula.
