@@ -33,7 +33,7 @@ async def CABBAGE():
 @bot.command(description='Run level 3 cabbage diagnostic.')
 async def diag():
   """Run a level 3 cabbage diagnostic."""
-  info = getattr(joy.get_cabbage, 'diagnostic_info', 'Not available.')[:600]
+  info = getattr(joy.get_cabbage, 'diagnostic_info', 'Not available.')[:1400]
   cache_size = len(getattr(joy.get_cabbage, 'cabbage_cache', []))
   diagnostic_message = ('BEEP BOOP. BORING LEVEL 3 DIAGNOSTIC RESULTS:\n\n'
                         'Current cabbage cache size: %d\n'
