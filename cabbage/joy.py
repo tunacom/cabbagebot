@@ -76,6 +76,9 @@ def seems_like_cabbage(title):
     'music',
     'rock',
     'concert',
+    'tour',
+    # Nightmare fuel.
+    'doll',
   ]
   for keyword in non_cabbage_keywords:
     if keyword in title:
