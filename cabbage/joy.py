@@ -138,7 +138,7 @@ def load_cabbages(page=1):
       result = response.read().decode('utf-8')
       tags = []
       for line in result.splitlines():
-        if '<tag' in line:
+        if '<tag ' in line or '<description ' in line:
           tags.append(line)
 
       if any([not seems_like_cabbage(tag) for tag in tags]):
