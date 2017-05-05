@@ -77,6 +77,7 @@ def seems_like_cabbage(title):
     'rock',
     'concert',
     'tour',
+    'broadbent',  # Dude seems pretty douchey.
     # Nightmare fuel.
     'doll',
   ]
