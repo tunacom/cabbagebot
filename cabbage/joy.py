@@ -52,12 +52,11 @@ def get_flickr_api_key():
   return getattr(get_flickr_api_key, 'flickr_api_key')
 
 
-# TODO(tunacom): This should be more sophisticated.
-def seems_like_cabbage(title):
-  """Check to see if a title sounds like a cabbage title.
+def seems_like_cabbage(text):
+  """Check to see if a some text sounds like cabbage text.
 
   Args:
-    title: The potential cabbage image title. Expected to be lowercase.
+    text: The text to inspect potential cabbage likeness.
 
   Returns:
     Boolean indicating whether or not this seems like cabbage.
@@ -80,9 +79,11 @@ def seems_like_cabbage(title):
     'broadbent',  # Dude seems pretty douchey.
     # Nightmare fuel.
     'doll',
+    # People who are unqualified to identify cabbages (author ids).
+    '92795448@N08',
   ]
   for keyword in non_cabbage_keywords:
-    if keyword in title:
+    if keyword in text:
       return False
 
   return True
