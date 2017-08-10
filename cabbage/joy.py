@@ -79,6 +79,8 @@ def seems_like_cabbage(text):
     'broadbent',  # Dude seems pretty douchey.
     # Nightmare fuel.
     'doll',
+    # Stuff that generally isn't as satisfying as cabbage.
+    'tree',
     # People who are unqualified to identify cabbages (author ids).
     '92795448@N08',
   ]
