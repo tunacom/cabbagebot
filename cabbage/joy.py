@@ -80,7 +80,8 @@ def seems_like_cabbage(text):
     # Nightmare fuel.
     'doll',
     # Stuff that generally isn't as satisfying as cabbage.
-    'tree',
+    'tree',  # Usually cabbage trees or tree collard.
+    'skunk', # Usually skunk cabbage, which is toxic.
     # People who are unqualified to identify cabbages (author ids).
     '92795448@N08',
   ]
