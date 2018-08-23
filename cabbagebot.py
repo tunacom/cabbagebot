@@ -22,6 +22,12 @@ async def cabbage():
   """Spread the joy of cabbage."""
   await bot.say(joy.spread_joy())
 
+  
+@bot.command(description='キャベツ')
+async def キャベツ():
+  """Spread the joy of キャベツ."""
+  await bot.say(joy.spread_joy() + ' desu')
+
 
 @bot.command(description='SPREAD THE JOY OF CABBAGE!')
 async def CABBAGE():
