@@ -80,12 +80,14 @@ def seems_like_cabbage(text):
     'broadbent',  # Dude seems pretty douchey.
     # Nightmare fuel.
     'doll',
+    'kid',
     # Stuff that generally isn't as satisfying as cabbage.
     'tree',  # Usually cabbage trees or tree collard.
     'skunk', # Usually skunk cabbage, which is toxic.
     # People who are unqualified to identify cabbages (author ids).
     '92795448@N08',
     '156581561@N04',
+    '147202485@N04',
   ]
   for keyword in non_cabbage_keywords:
     if keyword in text:
