@@ -85,6 +85,7 @@ def seems_like_cabbage(text):
     'skunk', # Usually skunk cabbage, which is toxic.
     # People who are unqualified to identify cabbages (author ids).
     '92795448@N08',
+    '156581561@N04',
   ]
   for keyword in non_cabbage_keywords:
     if keyword in text:
