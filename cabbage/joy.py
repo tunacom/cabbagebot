@@ -65,6 +65,7 @@ def seems_like_cabbage(text):
   non_cabbage_keywords = [
     # Cabbage butterflies are the main source of non-cabbage sadness.
     'butterfly',
+    'butterflies',
     'chrysalis', # Even baby butterflies are terrible. Maybe worse.
     'cocoon',
     'caterpillar',
@@ -86,8 +87,9 @@ def seems_like_cabbage(text):
     'skunk', # Usually skunk cabbage, which is toxic.
     # People who are unqualified to identify cabbages (author ids).
     '92795448@N08',
-    '156581561@N04',
-    '147202485@N04',
+    '156581561@N04',  # Weird non-cabbage food.
+    '147202485@N04',  # Landscapes.
+    '32203271@N08',  # Band without tags showing it's a band.
   ]
   for keyword in non_cabbage_keywords:
     if keyword in text:
