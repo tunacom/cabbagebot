@@ -90,6 +90,7 @@ def seems_like_cabbage(text):
     '156581561@N04',  # Weird non-cabbage food.
     '147202485@N04',  # Landscapes.
     '32203271@N08',  # Band without tags showing it's a band.
+    '86186358@N06',  # More nightmare fuel.
   ]
   for keyword in non_cabbage_keywords:
     if keyword in text:
