@@ -18,9 +18,9 @@ async def on_ready():
 
 
 @bot.command(description='Spread the joy of cabbage!')
-async def cabbage():
+async def cabbage(ctx):
   """Spread the joy of cabbage."""
-  await bot.say(joy.spread_joy())
+  await ctx.send(joy.spread_joy())
 
   
 @bot.command(description='キャベツ')
@@ -30,10 +30,10 @@ async def キャベツ():
 
 
 @bot.command(description='SPREAD THE JOY OF CABBAGE!')
-async def CABBAGE():
+async def CABBAGE(ctx):
   """SPREAD THE JOY OF CABBAGE."""
   JOY = joy.create_cabbage_text().upper()
-  await bot.say(JOY)
+  await ctx.send(JOY)
 
 
 @bot.command(description='Run level 3 cabbage diagnostic.')
@@ -49,7 +49,7 @@ async def diag():
 
 
 @bot.command(description='Roll polyhedral cabbages.')
-async def roll(formula : str):
+async def roll(ctx, formula : str):
   """Roll polyhedral cabbages based on a formula.
 
   For example, consider that you are wielding a cabbagebrand longsword in two 
@@ -67,7 +67,7 @@ async def roll(formula : str):
     formula: The formula for the roll.
   """
   response = polyhedral.roll_polyhedral_cabbage(formula)
-  await bot.say(response)
+  await ctx.send(response)
 
 
 def main():
