@@ -24,9 +24,9 @@ async def cabbage(ctx):
 
   
 @bot.command(description='キャベツ')
-async def キャベツ():
+async def キャベツ(ctx):
   """Spread the joy of キャベツ."""
-  await bot.say(joy.spread_joy() + ' desu')
+  await ctx.send(joy.spread_joy() + ' desu')
 
 
 @bot.command(description='SPREAD THE JOY OF CABBAGE!')
