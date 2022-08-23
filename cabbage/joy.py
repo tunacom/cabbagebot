@@ -32,9 +32,8 @@ BAD_FLICKR_RESPONSE_ERROR = (
 FLICKR_CABBAGE_REQUEST_FORMAT = (
     '/services/rest/?method=flickr.photos.search&tags=cabbage&'
     'page={page}&per_page={per_page}&api_key={api_key}')
-FLICKR_GET_INFO_FORMAT = (
-    '/services/rest/?method=flickr.photos.getInfo&'
-    'photo_id={photo_id}&api_key={api_key}')
+FLICKR_GET_INFO_FORMAT = ('/services/rest/?method=flickr.photos.getInfo&'
+                          'photo_id={photo_id}&api_key={api_key}')
 FLICKR_CABBAGE_IMAGE_FORMAT = (
     'https://farm{farm}.staticflickr.com/{server}/{photo_id}_{secret}.jpg '
     '(title: {title})')
@@ -44,17 +43,17 @@ FLICKR_PHOTO_REGEX = re.compile(
 
 
 def bootstrap(flickr_api_key):
-  """Perform initial cabbage setup, such as Flickr API key setup."""
-  setattr(get_flickr_api_key, 'flickr_api_key', flickr_api_key)
+    """Perform initial cabbage setup, such as Flickr API key setup."""
+    setattr(get_flickr_api_key, 'flickr_api_key', flickr_api_key)
 
 
 def get_flickr_api_key():
-  """Get the current Flickr API key for cabbage fetching."""
-  return getattr(get_flickr_api_key, 'flickr_api_key')
+    """Get the current Flickr API key for cabbage fetching."""
+    return getattr(get_flickr_api_key, 'flickr_api_key')
 
 
 def seems_like_cabbage(text):
-  """Check to see if a some text sounds like cabbage text.
+    """Check to see if a some text sounds like cabbage text.
 
   Args:
     text: The text to inspect potential cabbage likeness.
@@ -62,173 +61,175 @@ def seems_like_cabbage(text):
   Returns:
     Boolean indicating whether or not this seems like cabbage.
   """
-  non_cabbage_keywords = [
-    # Cabbage butterflies are the main source of non-cabbage sadness.
-    'butterfly',
-    'butterflies',
-    'chrysalis', # Even baby butterflies are terrible. Maybe worse.
-    'cocoon',
-    'caterpillar',
-    'moth',  # Not a butterfly. Just as terrible.
-    'peris',
-    'rapae',
-    # Bands are the other primary source of non-cabbage sadness.
-    'band',  # Also not cabbage. You can't eat (most) bands.
-    'music',
-    'rock',
-    'concert',
-    'tour',
-    'broadbent',  # Dude seems pretty douchey.
-    # Nightmare fuel.
-    'doll',
-    'kid',
-    # Stuff that generally isn't as satisfying as cabbage.
-    'tree',  # Usually cabbage trees or tree collard.
-    'skunk', # Usually skunk cabbage, which is toxic.
-    # People who are unqualified to identify cabbages (author ids).
-    '92795448@N08',
-    '156581561@N04',  # Weird non-cabbage food.
-    '147202485@N04',  # Landscapes.
-    '32203271@N08',  # Band without tags showing it's a band.
-    '86186358@N06',  # More nightmare fuel.
-  ]
-  for keyword in non_cabbage_keywords:
-    if keyword in text:
-      return False
+    non_cabbage_keywords = [
+        # Cabbage butterflies are the main source of non-cabbage sadness.
+        'butterfly',
+        'butterflies',
+        'chrysalis',  # Even baby butterflies are terrible. Maybe worse.
+        'cocoon',
+        'caterpillar',
+        'moth',  # Not a butterfly. Just as terrible.
+        'peris',
+        'rapae',
+        # Bands are the other primary source of non-cabbage sadness.
+        'band',  # Also not cabbage. You can't eat (most) bands.
+        'music',
+        'rock',
+        'concert',
+        'tour',
+        'broadbent',  # Dude seems pretty douchey.
+        # Nightmare fuel.
+        'doll',
+        'kid',
+        # Stuff that generally isn't as satisfying as cabbage.
+        'tree',  # Usually cabbage trees or tree collard.
+        'skunk',  # Usually skunk cabbage, which is toxic.
+        # People who are unqualified to identify cabbages (author ids).
+        '92795448@N08',
+        '156581561@N04',  # Weird non-cabbage food.
+        '147202485@N04',  # Landscapes.
+        '32203271@N08',  # Band without tags showing it's a band.
+        '86186358@N06',  # More nightmare fuel.
+    ]
+    for keyword in non_cabbage_keywords:
+        if keyword in text:
+            return False
 
-  return True
+    return True
 
 
 def load_cabbages(page=1):
-  """Preload cabbages into the cabbage cache."""
-  if page == 1:
-    print('REPOPULATING THE CABBAGE CACHE WITH AMAZING CABBAGES!')
+    """Preload cabbages into the cabbage cache."""
+    if page == 1:
+        print('REPOPULATING THE CABBAGE CACHE WITH AMAZING CABBAGES!')
 
-  # Connect to the Flickr API server.
-  # TODO(tunacom): Looks like Flickr isn't returning the right number of results
-  # per page, or the regex is screwing up on some things. Investigate this.
-  connection = http.client.HTTPSConnection('api.flickr.com')
-  path = FLICKR_CABBAGE_REQUEST_FORMAT.format(api_key=get_flickr_api_key(),
-                                              per_page=CABBAGES_PER_PAGE,
-                                              page=page)
-  connection.request('GET', path)
-  response = connection.getresponse()
+    # Connect to the Flickr API server.
+    # TODO(tunacom): Looks like Flickr isn't returning the right number of results
+    # per page, or the regex is screwing up on some things. Investigate this.
+    connection = http.client.HTTPSConnection('api.flickr.com')
+    path = FLICKR_CABBAGE_REQUEST_FORMAT.format(api_key=get_flickr_api_key(),
+                                                per_page=CABBAGES_PER_PAGE,
+                                                page=page)
+    connection.request('GET', path)
+    response = connection.getresponse()
 
-  # If the HTTP response code was anything other than OK, yell at Flickr.
-  if response.status != 200:
-    raise error.RecoverableCabbageException(BAD_FLICKR_RESPONSE_ERROR)
-
-  result = response.read().decode('utf-8')
-  photos = []
-  for line in result.splitlines():
-    # Proper xml parsing may be necessary at some point, but I'd rather not
-    # bring in an XML parsing library just for this.
-    match = FLICKR_PHOTO_REGEX.match(line)
-    if match:
-      photo_id = match.group(1)
-      secret = match.group(2)
-      server = match.group(3)
-      farm = match.group(4)
-      title = match.group(5).lower()
-      photo = FLICKR_CABBAGE_IMAGE_FORMAT.format(photo_id=photo_id,
-                                                 secret=secret,
-                                                 server=server,
-                                                 farm=farm,
-                                                 title=title)
-
-      if not seems_like_cabbage(title):
-        continue
-
-      # At this point we seem like a cabbage. Try to be sure.
-      info_path = FLICKR_GET_INFO_FORMAT.format(photo_id=photo_id,
-                                                api_key=get_flickr_api_key())
-      connection.request('GET', info_path)
-      response = connection.getresponse()
-        
-      # If the HTTP response code was anything other than OK, yell at Flickr.
-      if response.status != 200:
+    # If the HTTP response code was anything other than OK, yell at Flickr.
+    if response.status != 200:
         raise error.RecoverableCabbageException(BAD_FLICKR_RESPONSE_ERROR)
 
-      # TODO(tunacom): if this works, get the actual tag raw values.
-      result = response.read().decode('utf-8')
-      tags = []
-      for line in result.splitlines():
-        if '<tag ' in line or '<description ' in line:
-          tags.append(line)
+    result = response.read().decode('utf-8')
+    photos = []
+    for line in result.splitlines():
+        # Proper xml parsing may be necessary at some point, but I'd rather not
+        # bring in an XML parsing library just for this.
+        match = FLICKR_PHOTO_REGEX.match(line)
+        if match:
+            photo_id = match.group(1)
+            secret = match.group(2)
+            server = match.group(3)
+            farm = match.group(4)
+            title = match.group(5).lower()
+            photo = FLICKR_CABBAGE_IMAGE_FORMAT.format(photo_id=photo_id,
+                                                       secret=secret,
+                                                       server=server,
+                                                       farm=farm,
+                                                       title=title)
 
-      if any([not seems_like_cabbage(tag) for tag in tags]):
-        continue
+            if not seems_like_cabbage(title):
+                continue
 
-      photos.append((photo, result))
+            # At this point we seem like a cabbage. Try to be sure.
+            info_path = FLICKR_GET_INFO_FORMAT.format(
+                photo_id=photo_id, api_key=get_flickr_api_key())
+            connection.request('GET', info_path)
+            response = connection.getresponse()
 
-  # The parsing above is a bit brittle, so have some fallback.
-  if not photos:
-    raise error.RecoverableCabbageException(
-        'I HAD TROUBLE FIGURING OUT WHERE THE CABBAGE WAS. OOPS.')
+            # If the HTTP response code was anything other than OK, yell at Flickr.
+            if response.status != 200:
+                raise error.RecoverableCabbageException(
+                    BAD_FLICKR_RESPONSE_ERROR)
 
-  if not hasattr(get_cabbage, 'cabbage_cache'):
-    setattr(get_cabbage, 'cabbage_cache', [])
+            # TODO(tunacom): if this works, get the actual tag raw values.
+            result = response.read().decode('utf-8')
+            tags = []
+            for line in result.splitlines():
+                if '<tag ' in line or '<description ' in line:
+                    tags.append(line)
 
-  existing_cache = getattr(get_cabbage, 'cabbage_cache')
-  existing_cache += photos
+            if any([not seems_like_cabbage(tag) for tag in tags]):
+                continue
 
-  print('PAGE {page}: KEPT {total}/{max} POTENTIAL CABBAGES.'.format(
-      page=page, total=len(photos), max=CABBAGES_PER_PAGE))
+            photos.append((photo, result))
 
-  last_page = CABBAGES_TO_REQUEST / CABBAGES_PER_PAGE
-  if page < last_page:
-    load_cabbages(page=page + 1)
+    # The parsing above is a bit brittle, so have some fallback.
+    if not photos:
+        raise error.RecoverableCabbageException(
+            'I HAD TROUBLE FIGURING OUT WHERE THE CABBAGE WAS. OOPS.')
+
+    if not hasattr(get_cabbage, 'cabbage_cache'):
+        setattr(get_cabbage, 'cabbage_cache', [])
+
+    existing_cache = getattr(get_cabbage, 'cabbage_cache')
+    existing_cache += photos
+
+    print('PAGE {page}: KEPT {total}/{max} POTENTIAL CABBAGES.'.format(
+        page=page, total=len(photos), max=CABBAGES_PER_PAGE))
+
+    last_page = CABBAGES_TO_REQUEST / CABBAGES_PER_PAGE
+    if page < last_page:
+        load_cabbages(page=page + 1)
 
 
 def get_cabbage():
-  """Get a cabbage from the prepopulated cabbage cache, or populate it."""
-  cabbage_cache = getattr(get_cabbage, 'cabbage_cache', [])
-  if not cabbage_cache:
-    load_cabbages()
+    """Get a cabbage from the prepopulated cabbage cache, or populate it."""
+    cabbage_cache = getattr(get_cabbage, 'cabbage_cache', [])
+    if not cabbage_cache:
+        load_cabbages()
 
-  cabbage_index = random.randint(0, len(cabbage_cache) - 1)
-  cabbage, diagnostic_info = cabbage_cache.pop(cabbage_index)
-  setattr(get_cabbage, 'diagnostic_info', diagnostic_info)
+    cabbage_index = random.randint(0, len(cabbage_cache) - 1)
+    cabbage, diagnostic_info = cabbage_cache.pop(cabbage_index)
+    setattr(get_cabbage, 'diagnostic_info', diagnostic_info)
 
-  return cabbage
+    return cabbage
 
 
 def create_cabbage_image():
-  """Spread the joy of pictures of cabbages.
+    """Spread the joy of pictures of cabbages.
 
   Returns:
     A link to some cabbage. Pure joy.
   """
-  try:
-    return get_cabbage()
-  except error.RecoverableCabbageException as e:
-    return str(e)
+    try:
+        return get_cabbage()
+    except error.RecoverableCabbageException as e:
+        return str(e)
 
 
 def create_cabbage_text():
-  """Spread the joy of the word "cabbage".
+    """Spread the joy of the word "cabbage".
 
   Returns:
     Text-based joy.
   """
-  cabbage_list = ['cabbage'] * random.randint(1, 16)
+    cabbage_list = ['cabbage'] * random.randint(1, 16)
 
-  if random.random() < SPECIAL_CABBAGE_PROBABILITY:
-    special_cabbage = random.choice(SPECIAL_CABBAGES)
-    cabbage_list[random.randint(0, len(cabbage_list) - 1)] = special_cabbage
+    if random.random() < SPECIAL_CABBAGE_PROBABILITY:
+        special_cabbage = random.choice(SPECIAL_CABBAGES)
+        cabbage_list[random.randint(0,
+                                    len(cabbage_list) - 1)] = special_cabbage
 
-  return ' '.join(cabbage_list)
+    return ' '.join(cabbage_list)
 
 
 def spread_joy():
-  """Spread the joy of cabbage.
+    """Spread the joy of cabbage.
 
   Returns:
      Joy.
   """
-  roll = random.random()
-  if roll < CABBAGE_IMAGE_PROBABILITY:
-    return create_cabbage_image()
+    roll = random.random()
+    if roll < CABBAGE_IMAGE_PROBABILITY:
+        return create_cabbage_image()
 
-  # By default, we return text based cabbage.
-  return create_cabbage_text()
+    # By default, we return text based cabbage.
+    return create_cabbage_text()

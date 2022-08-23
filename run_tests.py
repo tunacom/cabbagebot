@@ -6,16 +6,16 @@ import unittest
 
 
 def main():
-  """Run all tests."""
-  pattern = '*_test.py'
-  if len(sys.argv) > 1:
-    pattern = sys.argv[1]
+    """Run all tests."""
+    pattern = '*_test.py'
+    if len(sys.argv) > 1:
+        pattern = sys.argv[1]
 
-  loader = unittest.TestLoader()
-  suite = loader.discover(os.path.dirname(__file__), pattern=pattern)
-  runner = unittest.TextTestRunner()
-  runner.run(suite)
+    loader = unittest.TestLoader()
+    suite = loader.discover(os.path.dirname(__file__), pattern=pattern)
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
 
 
 if __name__ == '__main__':
-  main()
+    main()
